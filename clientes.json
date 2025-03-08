@@ -1,0 +1,1 @@
+{"David": {"saldo": 1500.0, "saques": 3, "historico": [{"tipo": "Saque", "valor": 500.0, "data": "08/03/2025 14:44:39"}, {"tipo": "Saque", "valor": 500.0, "data": "08/03/2025 14:44:54"}, {"tipo": "Saque", "valor": 500.0, "data": "08/03/2025 14:45:00"}, {"tipo": "Dep\u00f3sito", "valor": 1500.0, "data": "08/03/2025 14:45:09"}]}}
