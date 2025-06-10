@@ -51,5 +51,3 @@ while True:
             print("\nOperação inválida.\n")
     except ValueError:
         print("\nEntrada inválida. Por favor, digite um número.\n")
-
-
