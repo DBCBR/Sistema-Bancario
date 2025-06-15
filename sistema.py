@@ -1,53 +1,102 @@
-import clientes as c
-import operacoes as o
-import locale
+from modelos import Cliente, Conta, salvar_clientes, carregar_clientes
 
-# Configurar o locale para o padrão brasileiro
-locale.setlocale(locale.LC_ALL, 'pt_BR.UTF-8')
 
-print("\nBem-vindo ao Banco do Devs!\n")
-print("Por favor, digite seu nome: ")
-nome = input()
-if nome in c.clientes:
-    print("\nOlá, " + nome + "!\n")
-    # Reiniciar o contador de saques a cada acesso
-    c.clientes[nome]['saques'] = 0
-else:
-    print("\nCliente não encontrado. Deseja se cadastrar? (s/n)")
-    resposta = input()
-    if resposta == "s":
-        print("\nDigite o seu nome: ")
-        nome = input()
-        print("Digite o seu saldo: ")
-        saldo = float(input())
-        c.clientes[nome] = {'saldo': saldo, 'saques': 0, 'historico': []}
-        c.salvar_clientes(c.clientes)  # Salvar dados dos clientes
-        print("\nCadastro realizado com sucesso!\n")
-    else:
-        print("\nObrigado e até logo!\n")
-        exit()
+def menu():
+    print("""
+[d] Depositar
+[s] Sacar
+[e] Extrato
+[nc] Nova conta
+[lc] Listar contas
+[nu] Novo usuário
+[q] Sair
+""")
 
-while True:
-    print("\nEscolha a operação: 1-Saque, 2-Depósito, 3-Extrato, 4-Sair")
+
+def buscar_cliente_por_cpf(clientes, cpf):
+    for cliente in clientes:
+        if cliente.cpf == cpf:
+            return cliente
+    return None
+
+
+def selecionar_conta(cliente):
+    if not cliente.contas:
+        print("Nenhuma conta cadastrada.")
+        return None
+    print("Contas disponíveis:")
+    for idx, conta in enumerate(cliente.contas, 1):
+        print(
+            f"{idx} - Agência: {conta.agencia} | Conta: {conta.numero} | Saldo: R$ {conta.saldo:.2f}")
     try:
-        operacao = int(input())
-        if operacao == 1:
-            print("\nDigite o valor do saque:")
-            saque = float(input())
-            mensagem = o.saque(c.clientes, nome, saque)
-            print("\n" + mensagem + "\n")
-        elif operacao == 2:
-            print("\nDigite o valor do depósito:")
-            deposito = float(input())
-            mensagem = o.deposito(c.clientes, nome, deposito)
-            print("\n" + mensagem + "\n")
-        elif operacao == 3:
-            mensagem = o.extrato(c.clientes, nome)
-            print("\n" + mensagem + "\n")
-        elif operacao == 4:
-            print("\nObrigado e até logo!\n")
+        escolha = int(input("Escolha o número da conta: "))
+        if 1 <= escolha <= len(cliente.contas):
+            return cliente.contas[escolha - 1]
+    except ValueError:
+        pass
+    print("Conta inválida.")
+    return None
+
+
+def main():
+    clientes = carregar_clientes()
+    saques_realizados = {}
+
+    while True:
+        menu()
+        opcao = input("Escolha uma opção: ").lower()
+        if opcao == "nu":
+            nome = input("Nome: ")
+            cpf = input("CPF: ")
+            endereco = input("Endereço: ")
+            if buscar_cliente_por_cpf(clientes, cpf):
+                print("CPF já cadastrado.")
+            else:
+                cliente = Cliente(nome, cpf, endereco)
+                clientes.append(cliente)
+                salvar_clientes(clientes)
+                print("Cliente cadastrado com sucesso!")
+        elif opcao == "nc":
+            cpf = input("CPF do titular: ")
+            cliente = buscar_cliente_por_cpf(clientes, cpf)
+            if not cliente:
+                print("Cliente não encontrado.")
+            else:
+                numero = len(cliente.contas) + 1
+                conta = Conta("0001", numero)
+                cliente.adicionar_conta(conta)
+                salvar_clientes(clientes)
+                print(f"Conta criada: Agência 0001, Número {numero}")
+        elif opcao == "lc":
+            for cliente in clientes:
+                print(f"Cliente: {cliente.nome} (CPF: {cliente.cpf})")
+                cliente.listar_contas()
+        elif opcao in ["d", "s", "e"]:
+            cpf = input("Informe seu CPF: ")
+            cliente = buscar_cliente_por_cpf(clientes, cpf)
+            if not cliente:
+                print("Cliente não encontrado.")
+                continue
+            conta = selecionar_conta(cliente)
+            if not conta:
+                continue
+            if opcao == "d":
+                valor = float(input("Valor do depósito: "))
+                conta.depositar(valor)
+            elif opcao == "s":
+                valor = float(input("Valor do saque: "))
+                chave = f"{cpf}-{conta.numero}"
+                saques = saques_realizados.get(chave, 0)
+                if conta.sacar(valor, saques_realizados=saques):
+                    saques_realizados[chave] = saques + 1
+            elif opcao == "e":
+                conta.extrato()
+            salvar_clientes(clientes)
+        elif opcao == "q":
             break
         else:
-            print("\nOperação inválida.\n")
-    except ValueError:
-        print("\nEntrada inválida. Por favor, digite um número.\n")
+            print("Opção inválida.")
+
+
+if __name__ == "__main__":
+    main()
