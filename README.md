@@ -1,75 +1,56 @@
 # Sistema Bancário
 
-Este é um sistema bancário simples desenvolvido em Python. Ele permite que os usuários realizem operações bancárias básicas, como saques, depósitos e visualização de extratos. Os dados dos clientes são armazenados em um arquivo JSON para persistência.
-
-## Funcionalidades
-
-- Cadastro de novos clientes
-- Saque (limite de 3 saques por acesso)
-- Depósito
-- Visualização de extrato com histórico de transações
-
-## Requisitos
-
-- Python 3.x
-
-## Instalação
-
-1. Clone o repositório para o seu ambiente local:
-    ```bash
-    git clone https://github.com/seu-usuario/Sistema-Bancario.git
-    ```
-2. Navegue até o diretório do projeto:
-    ```bash
-    cd Sistema-Bancario
-    ```
-
-## Uso
-
-1. Execute o script `sistema.py`:
-    ```bash
-    python sistema.py
-    ```
-
-2. Siga as instruções no terminal para realizar operações bancárias.
+Este é um sistema bancário simples, desenvolvido em Python, utilizando orientação a objetos para gerenciar clientes e contas bancárias. Os dados são persistidos em um arquivo JSON.
 
 ## Estrutura do Projeto
 
-- `sistema.py`: Script principal que gerencia a interação com o usuário.
-- `clientes.py`: Módulo que gerencia o carregamento e salvamento dos dados dos clientes.
-- `operacoes.py`: Módulo que contém as funções para realizar as operações bancárias.
+```
+Sistema-Bancario/
+│
+├── modelos.py         # Classes Cliente e Conta, persistência dos dados
+├── sistema.py         # Fluxo principal do sistema (interface de texto)
+├── clientes.json      # Arquivo de dados dos clientes e contas
+└── migrar_dados.py    # (Opcional) Script para migrar dados antigos
+```
 
-## Exemplo de Uso
+## Funcionalidades
 
-```plaintext
-Bem-vindo ao Banco do Devs!
+- Cadastro de clientes (nome, CPF, endereço)
+- Criação de múltiplas contas por cliente
+- Depósito, saque e extrato por conta
+- Listagem de contas de todos os clientes
+- Persistência dos dados em `clientes.json`
 
-Por favor, digite seu nome:
-David
+## Como usar
 
-Olá, David!
+1. **Clone o repositório e acesse a pasta:**
+   ```sh
+   git clone https://github.com/seu-usuario/Sistema-Bancario.git
+   cd Sistema-Bancario
+   ```
 
-Escolha a operação: 1-Saque, 2-Depósito, 3-Extrato, 4-Sair
-1
+2. **(Opcional) Migre dados antigos:**
+   Se você possui um `clientes.json` antigo, execute:
+   ```sh
+   python migrar_dados.py
+   ```
 
-Digite o valor do saque:
-500
+3. **Execute o sistema:**
+   ```sh
+   python sistema.py
+   ```
 
-Saque realizado com sucesso. Novo saldo: R$ 1.000,00
+4. **Siga o menu interativo para utilizar as funcionalidades.**
 
-Escolha a operação: 1-Saque, 2-Depósito, 3-Extrato, 4-Sair
-3
+## Requisitos
 
-Nome: David
-Saldo: R$ 1.000,00
-Histórico de transações:
-01/01/2025 12:00:00 - Saque: R$ 500,00
+- Python 3.8 ou superior
 
-Contribuição
-Contribuições são bem-vindas! Sinta-se à vontade para abrir issues e pull requests.
+## Observações
 
-Licença
-Este projeto está licenciado sob a licença MIT. Veja o arquivo LICENSE para mais detalhes.
+- Os arquivos `clientes.py`, `operacoes.py` e `desafio.py` **não são mais necessários** e podem ser removidos.
+- O arquivo `migrar_dados.py` é útil apenas para migração de dados antigos. Após a migração, pode ser excluído.
 
+---
 
-Este [README.md](http://_vscodecontentref_/1) fornece uma visão geral do projeto, instruções de instalação e uso, e um exemplo de como o sistema funciona. Sinta-se à vontade para ajustar conforme necessário para se adequar ao seu projeto específico.
+Desenvolvido para fins didáticos.
