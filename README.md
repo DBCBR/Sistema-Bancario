@@ -4,13 +4,13 @@ Este é um sistema bancário simples, desenvolvido em Python, utilizando orienta
 
 ## Estrutura do Projeto
 
-```
+```text
 Sistema-Bancario/
 │
-├── modelos.py         # Classes Cliente e Conta, persistência dos dados
+├── modelos.py         # Classes Cliente e Conta, decoradores, geradores e iteradores personalizados, persistência dos dados
 ├── sistema.py         # Fluxo principal do sistema (interface de texto)
 ├── clientes.json      # Arquivo de dados dos clientes e contas
-└── migrar_dados.py    # (Opcional) Script para migrar dados antigos
+├── testes.py          # Testes automatizados (opcional)
 ```
 
 ## Funcionalidades
@@ -20,37 +20,63 @@ Sistema-Bancario/
 - Depósito, saque e extrato por conta
 - Listagem de contas de todos os clientes
 - Persistência dos dados em `clientes.json`
+- **Registro automático de data, hora e tipo de cada transação** (via decorador)
+- **Gerador para iteração e filtragem das transações de uma conta**
+- **Iterador personalizado para percorrer todas as contas do banco**
+
+## Novas funcionalidades
+
+- Validação de CPF no cadastro de clientes
+- Histórico geral por cliente
+- Novo tipo de conta: ContaPoupanca
+- Padronização de mensagens de erro e sucesso
+- Testes automatizados em `testes.py`
 
 ## Como usar
 
 1. **Clone o repositório e acesse a pasta:**
+
    ```sh
    git clone https://github.com/seu-usuario/Sistema-Bancario.git
    cd Sistema-Bancario
    ```
 
-2. **(Opcional) Migre dados antigos:**
-   Se você possui um `clientes.json` antigo, execute:
-   ```sh
-   python migrar_dados.py
-   ```
+2. **Execute o sistema:**
 
-3. **Execute o sistema:**
    ```sh
    python sistema.py
    ```
 
-4. **Siga o menu interativo para utilizar as funcionalidades.**
+3. **Siga o menu interativo para utilizar as funcionalidades.**
+
+## Exemplos de uso avançado
+
+### Iterando sobre todas as contas do banco
+
+```python
+from modelos import carregar_clientes, ContaIterador
+
+clientes = carregar_clientes()
+for info in ContaIterador(clientes):
+    print(info)  # {'titular': ..., 'cpf': ..., 'agencia': ..., 'numero': ..., 'saldo': ...}
+```
+
+### Iterando e filtrando transações de uma conta
+
+```python
+conta = clientes[0].contas[0]
+# Todas as transações
+for transacao in conta.transacoes():
+    print(transacao)
+# Apenas saques
+for transacao in conta.transacoes(tipo="Saque"):
+    print(transacao)
+```
 
 ## Requisitos
 
 - Python 3.8 ou superior
 
-## Observações
-
-- Os arquivos `clientes.py`, `operacoes.py` e `desafio.py` **não são mais necessários** e podem ser removidos.
-- O arquivo `migrar_dados.py` é útil apenas para migração de dados antigos. Após a migração, pode ser excluído.
-
 ---
 
-Desenvolvido para fins didáticos.
+Desenvolvido por David Barcellos Cardoso para fins didáticos.
