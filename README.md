@@ -1,81 +1,104 @@
 # Sistema Bancário
 
-Este é um sistema bancário simples, desenvolvido em Python, utilizando orientação a objetos para gerenciar clientes e contas bancárias. Os dados são persistidos em um arquivo JSON.
+Este é um sistema bancário completo, desenvolvido em Python, utilizando orientação a objetos para gerenciar clientes e contas bancárias. Os dados são persistidos em um arquivo JSON.
 
 ## Estrutura do Projeto
 
 ```text
 Sistema-Bancario/
 │
-├── modelos.py         # Classes Cliente e Conta, decoradores, geradores e iteradores personalizados, persistência dos dados
-├── sistema.py         # Fluxo principal do sistema (interface de texto)
+├── modelos.py         # Classes do sistema bancário e persistência de dados
+├── sistema.py         # Interface principal do sistema
 ├── clientes.json      # Arquivo de dados dos clientes e contas
-├── testes.py          # Testes automatizados (opcional)
+├── testes.py          # Testes unitários
+├── README.md          # Documentação do projeto
+└── LICENSE            # Licença do projeto
 ```
 
-## Funcionalidades
+## Funcionalidades Principais
+
+### 🏦 Gestão de Clientes e Contas
 
 - Cadastro de clientes (nome, CPF, endereço)
-- Criação de múltiplas contas por cliente
-- Depósito, saque e extrato por conta
-- Listagem de contas de todos os clientes
-- Persistência dos dados em `clientes.json`
-- **Registro automático de data, hora e tipo de cada transação** (via decorador)
-- **Gerador para iteração e filtragem das transações de uma conta**
-- **Iterador personalizado para percorrer todas as contas do banco**
+- Validação robusta de CPF
+- Criação de contas correntes e poupança
+- Múltiplas contas por cliente
 
-## Novas funcionalidades
+### 💰 Operações Bancárias
 
-- Validação de CPF no cadastro de clientes
-- Histórico geral por cliente
-- Novo tipo de conta: ContaPoupanca
-- Padronização de mensagens de erro e sucesso
-- Testes automatizados em `testes.py`
+- **Depósitos** com registro automático
+- **Saques** com validações específicas por tipo de conta
+- **Extrato detalhado** com data e hora
+- **Histórico geral** por cliente
+
+### 🛡️ Controles e Limites
+
+- **Limite de 10 transações diárias** por conta
+- **Limite de 3 saques diários** para conta corrente
+- **Limite de R$ 500 por saque** para conta corrente
+- **Saldo não pode ficar negativo**
+
+### 📊 Recursos Avançados
+
+- **Decorator para logging** de transações
+- **Persistência automática** em JSON
+- **Tratamento robusto de erros**
+- **Compatibilidade com formatos antigos** de dados
 
 ## Como usar
 
-1. **Clone o repositório e acesse a pasta:**
+1. **Execute o sistema:**
 
-   ```sh
-   git clone https://github.com/seu-usuario/Sistema-Bancario.git
-   cd Sistema-Bancario
-   ```
-
-2. **Execute o sistema:**
-
-   ```sh
+   ```bash
    python sistema.py
    ```
 
-3. **Siga o menu interativo para utilizar as funcionalidades.**
+2. **Siga o menu interativo:**
 
-## Exemplos de uso avançado
+   ```text
+   [d] Depositar
+   [s] Sacar
+   [e] Extrato
+   [h] Histórico geral do cliente
+   [nc] Nova conta
+   [lc] Listar contas
+   [nu] Novo usuário
+   [q] Sair
+   ```
 
-### Iterando sobre todas as contas do banco
+## Testes
 
-```python
-from modelos import carregar_clientes, ContaIterador
+Execute os testes unitários para validar o sistema:
 
-clientes = carregar_clientes()
-for info in ContaIterador(clientes):
-    print(info)  # {'titular': ..., 'cpf': ..., 'agencia': ..., 'numero': ..., 'saldo': ...}
+```bash
+python testes.py
 ```
 
-### Iterando e filtrando transações de uma conta
+Os testes cobrem:
 
-```python
-conta = clientes[0].contas[0]
-# Todas as transações
-for transacao in conta.transacoes():
-    print(transacao)
-# Apenas saques
-for transacao in conta.transacoes(tipo="Saque"):
-    print(transacao)
-```
+- Operações básicas (depósito, saque)
+- Limites de transações diárias
+- Funcionalidade do decorator
+- Diferentes tipos de conta
+
+## Tipos de Conta
+
+### Conta Corrente
+
+- Limite de R$ 500 por saque
+- Máximo 3 saques por dia
+- Limite de 10 transações por dia
+
+### Conta Poupança
+
+- Sem limite específico de saques
+- Apenas limitação de saldo (não pode ficar negativo)
+- Limite de 10 transações por dia
 
 ## Requisitos
 
 - Python 3.8 ou superior
+- Nenhuma dependência externa
 
 ---
 
