@@ -1,58 +1,32 @@
-[
-    {
-        "nome": "David",
-        "cpf": "",
-        "endereco": "",
-        "contas": [
-            {
-                "agencia": "0001",
-                "numero": 1,
-                "saldo": 1500.0,
-                "historico": [
-                    {
-                        "tipo": "Saque",
-                        "valor": 500.0,
-                        "data": "08/03/2025 14:44:39"
-                    },
-                    {
-                        "tipo": "Saque",
-                        "valor": 500.0,
-                        "data": "08/03/2025 14:44:54"
-                    },
-                    {
-                        "tipo": "Saque",
-                        "valor": 500.0,
-                        "data": "08/03/2025 14:45:00"
-                    },
-                    {
-                        "tipo": "Depósito",
-                        "valor": 1500.0,
-                        "data": "08/03/2025 14:45:09"
-                    }
-                ]
-            }
-        ]
-    },
-    {
-        "nome": "David Barcellos Cardoso",
-        "cpf": "11149317728",
-        "endereco": "Avenida Maracanã 1905",
-        "contas": [
-            {
-                "agencia": "0001",
-                "numero": 1,
-                "saldo": 2000.0,
-                "historico": [
-                    {
-                        "tipo": "Depósito",
-                        "valor": 1000.0
-                    },
-                    {
-                        "tipo": "Depósito",
-                        "valor": 1000.0
-                    }
-                ]
-            }
-        ]
-    }
-]
+{
+    "clientes": [
+        {
+            "nome": "David Barcellos Cardoso",
+            "cpf": "11149317728",
+            "endereco": "Avenida Maracanã 1905",
+            "contas": [
+                1
+            ]
+        }
+    ],
+    "contas": [
+        {
+            "agencia": "0001",
+            "numero": 1,
+            "saldo": 2000.0,
+            "historico": [
+                {
+                    "tipo": "Depósito",
+                    "valor": 1000.0,
+                    "data": "09/07/2025 10:00:00"
+                },
+                {
+                    "tipo": "Depósito",
+                    "valor": 1000.0,
+                    "data": "09/07/2025 10:05:00"
+                }
+            ],
+            "cliente": "11149317728"
+        }
+    ]
+}

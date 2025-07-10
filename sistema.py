@@ -74,7 +74,8 @@ def main():
                     conta = ContaCorrente("0001", numero, cliente)
                 contas.append(conta)
                 cliente.adicionar_conta(conta)
-                print(f"Conta criada: Agência 0001, Número {numero}, Tipo: {'Poupança' if tipo == 'p' else 'Corrente'}")
+                print(
+                    f"Conta criada: Agência 0001, Número {numero}, Tipo: {'Poupança' if tipo == 'p' else 'Corrente'}")
         elif opcao == "lc":
             for conta in contas:
                 print(
@@ -123,9 +124,16 @@ def main():
             if not conta:
                 continue
             print("Extrato:")
-            for transacao in conta.historico:
+            if not conta.historico:
+                print("Nenhuma transação encontrada.")
+            else:
+                for transacao in conta.historico:
+                    data = transacao.get('data', 'Data não informada')
+                    tipo = transacao.get('tipo', 'Tipo não informado')
+                    valor = transacao.get('valor', 0.0)
+                    print(f"  {tipo}: R$ {valor:.2f} em {data}")
                 print(
-                    f"{transacao['tipo']}: R$ {transacao['valor']:.2f} em {transacao['data']}")
+                    f"Transações realizadas hoje: {conta.contar_transacoes_hoje()}/{conta.limite_transacoes_diarias}")
             print(f"Saldo atual: R$ {conta.saldo:.2f}")
         elif opcao == "h":
             cpf = input("Informe seu CPF: ")
